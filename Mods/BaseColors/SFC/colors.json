@@ -183,6 +183,29 @@
     "IsSpecial": false,
     "Name": "Bronze"
   },
+
+  {
+    "Base": {
+      "r": 255,
+      "g": 213,
+      "b": 23,
+      "a": 215
+    },
+    "Shadow": {
+      "r": 221,
+      "g": 23,
+      "b": 13,
+      "a": 124
+    },
+    "Visor": {
+      "r": 7,
+      "g": 23,
+      "b": 12,
+      "a": 123
+    },
+    "IsSpecial": true,
+    "Name": "RANDOM RGB VALUES"
+  }
   
   
 ]

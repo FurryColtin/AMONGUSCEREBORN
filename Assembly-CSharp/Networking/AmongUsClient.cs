@@ -253,7 +253,7 @@ public class AmongUsClient : InnerNetClient
 		{
 			OnGameJoined(null, clientData);
 		}
-		Debug.Log("Became Host");
+		Debug.Log("Became Host Of " + gameIdString);
 		RemoveUnownedObjects();
 	}
 

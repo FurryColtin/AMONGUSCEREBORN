@@ -29,7 +29,7 @@ public class Vent : MonoBehaviour, IUsable
 
 	public Vent Down;
 
-	private bool EnableExtraVents = false;
+	private bool EnableExtraVents = true;
 
 	private void Start()
 	{
