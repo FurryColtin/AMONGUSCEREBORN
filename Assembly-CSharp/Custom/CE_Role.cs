@@ -117,11 +117,11 @@ public class CE_Role
 		AvailableSpecials = new List<CE_Specials>();
 		RoleWinWith = CE_WinWith.All; //all does not mean all but more of "don't fuck with whether or not you win please"
 		RoleVisibility = CE_RoleVisibility.None;
-        UseImpVision = false;
-        RoleText = "Undefined";
-        HasTasks = true;
-        UUID = "undefined_undefined";
-        Layer = 0;
+                UseImpVision = false;
+                RoleText = "Undefined";
+                HasTasks = true;
+                UUID = "undefined_undefined";
+                Layer = 0;
     }
 
     public bool CanDo(CE_Specials special)
@@ -197,6 +197,20 @@ public class CE_Role
         Layer = layer;
         CanSeeImps = canseeimp;
         FakeTaskString = fakestring;
+    }
+	
+    public CE_Role() // Sorry ben gotta do this. I NEED TO ADD SOME MORE ROLES AAAAAAAAAAAAAAAAAAAAAAAAAAAAA (CUSTOM ROLE 1)
+    {
+		RoleName = "Celebrity";
+		RoleColor = Palette.CrewmateBlue;
+		AvailableSpecials = new List<CE_Specials>();
+		RoleWinWith = CE_WinWith.All; //hi
+		RoleVisibility = CE_RoleVisibility.None;
+                UseImpVision = false;
+                RoleText = "Your a celebrity you cant get voted.";
+                HasTasks = true;
+                UUID = "mynewroles_celebrity";
+                Layer = 0;
     }
     public string RoleName;
 
