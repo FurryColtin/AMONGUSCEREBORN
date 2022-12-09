@@ -35,12 +35,12 @@ public static class CE_CustomMapManager
 
     public static void Initialize()
     {
-        MapInfos.Add(new CE_MapInfo("Skeld")); //adds a dummy map named skeld.
-        if (!Directory.Exists(Path.Combine(CE_Extensions.GetGameDirectory(), "Maps")))
+        //MapInfos.Add(new CE_MapInfo("Skeld")); //adds a dummy map named skeld.
+        /*if (!Directory.Exists(Path.Combine(CE_Extensions.GetGameDirectory(), "Maps")))
         {
             //Debug.Log("Release build, disabling CM logic!");
             return;
-        }
+        } */
         FileInfo[] files = new DirectoryInfo(Path.Combine(CE_Extensions.GetGameDirectory(), "Maps")).GetFiles("*.json");
         foreach (FileInfo fo in files)
         {
@@ -77,7 +77,7 @@ public static class CE_CustomMapManager
         Debug.Log(PlayerControl.GameOptions.MapId);
         if (DestroyableSingleton<TutorialManager>.InstanceExists)
         {
-            return MapInfos[0];
+            return MapInfos[1];
         }
         return MapInfos[PlayerControl.GameOptions.MapId];
     }
@@ -85,7 +85,7 @@ public static class CE_CustomMapManager
 
 public class CE_CustomMap
 {
-    public static bool MapTestingActive = false;
+    public static bool MapTestingActive = true;
 
     public static Vent ReferenceVent;
 
@@ -172,8 +172,8 @@ public class CE_CustomMap
         col2d.isTrigger = true;
         ins.transform.localScale = scale;
         ins.transform.position = position;
-        ins.transform.name = "(Custom)" + room;
-        ins.layer = 9;
+        ins.transform.name = room;
+        ins.layer = 0;
         ShipRoom rom = ins.AddComponent<ShipRoom>();
         rom.roomArea = col2d;
         rom.RoomId = room;
@@ -272,7 +272,7 @@ public class CE_CustomMap
         List<string> SoundNames = new List<string>();
         foreach (ShipRoom V in TempRoom)
         {
-            if (!V.name.StartsWith("(Custom)"))
+            if (!V.name.StartsWith(""))
             {
                 if (!SoundNames.Contains(V.FootStepSounds.Clips[0].name))
                 {
@@ -299,13 +299,13 @@ public class CE_CustomMap
         {
             if (!CE_CustomMapManager.TypeToTaskName.TryGetValue(tt, out CEM_TaskData td))
             {
-                throw new Exception("Unknown Task Type:" + tt.ToString());
+                return CreateTask(td.tasktype, (SystemTypes)ct.Room, ct.MaxStep, tt, td.minigametype, td.MinigameName);
             }
             return CreateTask(td.tasktype, (SystemTypes)ct.Room, ct.MaxStep, tt, td.minigametype, td.MinigameName);
         }
         else
         {
-            
+            return CreateTask(td.tasktype, (SystemTypes)ct.Room, ct.MaxStep, tt, td.minigametype, td.MinigameName);
         }
         throw new Exception("Somehow reached end of ProcessCEMTask! Something has went horribly wrong!");
     }
@@ -315,20 +315,14 @@ public class CE_CustomMap
     {
         if (!CE_CustomMapManager.GetCurrentMap().IsCustom) return;
         stat = map;
-
-
-
         ReferenceVent = map.GetComponentInChildren<Vent>();
         ReferenceVent.transform.parent = null;
-        ReferenceVent.Left = null;
-        ReferenceVent.Right = null;
-        ReferenceVent.gameObject.SetActive(false);
-
-        /*Vent v1 = CreateVent("TestVent1", new Vector2(0f,5f));
-        v1.Left =  CreateVent("TestVent2", new Vector2(5f,5f),v1);*/
-
-
-
+        ReferenceVent.Left = TestVent1;
+        ReferenceVent.Right = TestVent2;
+        ReferenceVent.gameObject.SetActive(true);
+        Vent v1 = CreateVent("TestVent1", new Vector2(0f,5f));
+        v1.Left =  CreateVent("TestVent2", new Vector2(5f,5f),v1);
+        
         Debug.Log("Clearing Tasks...");
         LoadDefaultSounds();
    
@@ -377,15 +371,15 @@ public class CE_CustomMap
             map.LongTasks = new NormalPlayerTask[maptospawn.TaskList.LongTasks.Count];
             foreach (NormalPlayerTask mp in map.CommonTasks)
             {
-                UnityEngine.GameObject.Destroy(mp);
+                //UnityEngine.GameObject.Destroy(mp);
             }
             foreach (NormalPlayerTask mp in map.NormalTasks)
             {
-                UnityEngine.GameObject.Destroy(mp);
+                //UnityEngine.GameObject.Destroy(mp);
             }
             foreach (NormalPlayerTask mp in map.LongTasks)
             {
-                UnityEngine.GameObject.Destroy(mp);
+                //UnityEngine.GameObject.Destroy(mp);
             }
             for (int i = 0; i < maptospawn.TaskList.CommonTasks.Count; i++)
             {
@@ -456,22 +450,22 @@ public class CE_CustomMap
         {
             CV.Add(CreateVent(V.Name, new Vector3(V.Position.Values[0], V.Position.Values[1], V.Position.Values[2])),V);
         }
-        GameObject.Destroy(ReferenceVent);
+        //GameObject.Destroy(ReferenceVent);
         ReferenceVent = null;
-        foreach (Vent V in GameObject.FindObjectsOfType<Vent>())
+        foreach (Vent v1 in GameObject.FindObjectsOfType<Vent>())
         {
-            if (V.name.StartsWith("(Custom)"))
+            if (v1.name.StartsWith(""))
             {
                 CEM_Vent cv;
-                if (CV.TryGetValue(V,out cv))
+                if (CV.TryGetValue(v1,out cv))
                 {
                     if (cv.LeftName != "")
                     {
-                        V.Left = GameObject.Find("(Custom)" + cv.LeftName).GetComponent<Vent>();
+                        v1.Left = GameObject.Find("" + cv.LeftName).GetComponent<Vent>();
                     }
                     if (cv.RightName != "")
                     {
-                        V.Right = GameObject.Find("(Custom)" + cv.RightName).GetComponent<Vent>();
+                        v1.Right = GameObject.Find("" + cv.RightName).GetComponent<Vent>();
                     }
                 }
             }
