@@ -11,6 +11,8 @@ public class ShieldMinigame : Minigame
 	public SpriteRenderer Gauge;
 
 	private byte shields;
+	
+	private int shieldcounter = 5;
 
 	public AudioClip ShieldOnSound;
 
@@ -23,6 +25,9 @@ public class ShieldMinigame : Minigame
 		if (PlayerControl.GameOptions.TaskDifficulty != 3 && PlayerControl.GameOptions.TaskDifficulty != 2)
         {
 			UpdateButtons();
+			shieldcounter = 96;
+			shields = shieldcounter;
+			Shields[i].color = Color.blue;
         }
 		else
         {
