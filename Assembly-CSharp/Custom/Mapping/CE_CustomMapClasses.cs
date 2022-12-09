@@ -144,7 +144,7 @@ public class CEM_TaskList
 
 public class CEM_Map
 {
-    public string Name = "Undefined";
+    public string Name = "MAP";
     public byte Version = 0;
     public List<CEM_WallLine> Walls = new List<CEM_WallLine>();
     public List<CEM_Sprite> Sprites = new List<CEM_Sprite>();
